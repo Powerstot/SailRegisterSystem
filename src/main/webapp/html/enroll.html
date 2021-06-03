@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../css/enroll.css">
+        <script src="../js/jquery-3.3.1.js"></script>
+    </head>
+
+    <script>
+        /*
+        表单检验：
+        1.username 2-10个中文
+        2.sno 10位数字
+        3.email 邮箱格式
+        4.phone 6-16位
+        5.skills：2-100字
+        6.reason：2-100字
+         */
+        function checkUsername(){
+            var username = $("#username").val();
+            var reg_username = /^[\u4E00-\u9FA5]{2,10}$/;
+            var flag = reg_username.test(username);
+            if(flag){
+                $("#s_username").html("<span style='color: green'>✔</span>");
+            }else{
+                $("#s_username").html("<span style='color: red'>✘</span>");
+            }
+            return flag;
+        }
+        function checkSno(){
+            var sno = $("#sno").val();
+            var reg_sno = /^[0-9]{10}$/;
+            var flag = reg_sno.test(sno);
+            if(flag){
+                $("#s_sno").html("<span style='color: green'>✔</span>");
+            }else{
+                $("#s_sno").html("<span style='color: red'>✘</span>");
+            }
+            return flag;
+        }
+        function checkEmail(){
+            var email = $("#email").val();
+            var reg_email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            var flag = reg_email.test(email);
+            if(flag){
+                $("#s_email").html("<span style='color: green'>✔</span>");
+            }else{
+                $("#s_email").html("<span style='color: red'>✘</span>");
+            }
+            return flag;
+        }
+        function checkPhone(){
+            var phone = $("#phone").val();
+            var reg_phone = /^[0-9]{6,16}$/;
+            var flag = reg_phone.test(phone);
+            if(flag){
+                $("#s_phone").html("<span style='color: green'>✔</span>");
+            }else{
+                $("#s_phone").html("<span style='color: red'>✘</span>");
+            }
+            return flag;
+        }
+        function checkSkills(){
+            var skills = $("#skills").val();
+            var reg_skills = /^[^\\]{2,100}$/;
+            var flag = reg_skills.test(skills);
+            if(flag){
+                $("#s_skills").html("<span style='color: green'>✔</span>");
+            }else{
+                $("#s_skills").html("<span style='color: red'>✘</span>");
+            }
+            return flag;
+        }
+        function checkReason(){
+            var reason = $("#reason").val();
+            var reg_reason = /^[^\\]{2,100}$/;
+            var flag = reg_reason.test(reason);
+            if(flag){
+                $("#s_reason").html("<span style='color: green'>✔</span>");
+            }else{
+                $("#s_reason").html("<span style='color: red'>✘</span>");
+            }
+            return flag;
+        }
+        $(function () {
+
+            $("#username").blur(checkUsername);
+            $("#sno").blur(checkSno);
+            $("#email").blur(checkEmail);
+            $("#phone").blur(checkPhone);
+            $("#skills").blur(checkSkills);
+            $("#reason").blur(checkReason);
+        });
+        function checkForm(){
+            if(checkSno() && checkPhone() && checkUsername() && checkEmail() && checkSkills() && checkReason()){
+                return true;
+            }else {
+                alert("请按照要求填写数据");
+                return false;
+            }
+        }
+    </script>
+    <body>
+        <a href="http://www.sail-studio.cn/">
+            <h1 id="top-left-bar" class="top-bar">启航工作室</h1>
+        </a>
+        <div class="center">
+                <form action="/submit" method="post" id="form" enctype="multipart/form-data">
+                    <div style="display: inline-block;float:left;" >
+                        <div id="zjz">
+                            <input id="lifePhoto" type="file" name="uploadFile"><img id="tempFileImage" src="../photo/click.png"  alt="">
+                        </div>
+                        <script>
+                            var input = document.getElementsByName("uploadFile")[0];
+                            console.log(input);
+                            input.onchange = function () {
+                                var that = this;
+                                console.log(that.files[0]);
+                                var src = window.URL.createObjectURL(that.files[0])
+                                console.log(src);
+                                var img = document.getElementById("tempFileImage");
+                                img.src = src;
+                            }
+                        </script>
+                        <div>
+                            <p style="padding-left: 100px;padding-top: 30px">请上传一张近期生活照</p>
+                        </div>
+                    </div>
+                    <div  id="xx">
+                        <table>
+                            <tr><td class="td_left">姓名：</td>
+                                <td class="td_right"><input class="in"
+                                                         id="username"
+                                           name="username" type="textarea" placeholder="请输入真实姓名">
+                                    <span id="s_username" class="error"></span></td>
+
+                            </tr>
+                            <tr><td class="td_left">学号：</td>
+                                <td class="td_right"><input class="in" id="sno"
+                                           name="sno" type="textarea" placeholder="请输入学号">
+                                    <span id="s_sno" class="error" ></span></td>
+                            </tr>
+                            <tr><td class="td_left">邮箱：</td>
+                                <td class="td_right"><input class="in" id="email"
+                                           name="email" type="textarea" placeholder="请输入常用邮箱">
+                                    <span id="s_email" class="error"></span></td>
+                            </tr>
+
+
+                            <tr><td class="td_left">班级：</td>
+                                <td class="td_right">
+                                    <select name="classAndGrade">
+                                        <option value="2020级1班" selected="selected">2020级1班</option>
+                                        <option value="2020级2班">2020级2班</option>
+                                        <option value="2020级3班">2020级3班</option>
+                                        <option value="2020级4班">2020级4班</option>
+                                        <option value="2020级5班">2020级5班</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+
+                            <tr><td class="td_left">电话号码：</td>
+                                <td class="td_right"><input class="in" id="phone"
+                                           name="phone" type="textarea" placeholder="请输入电话号码">
+                                    <span id="s_phone" class="error" ></span></td>
+                            </tr>
+                            <tr><td class="td_left">擅长的技能：</td>
+                                <td class="td_right"><textarea id="skills"
+                                                               name="skills"  placeholder="不超过100字"></textarea>
+                                    <span id="s_skills" class="error"></span></td>
+                            </tr>
+                            <tr><td class="td_left">为什么来参加二招：</td>
+                                <td class="td_right"><textarea id="reason"
+                                                               name="reason"
+                                                              rows="5" cols="10"  placeholder="不超过100字"></textarea>
+                                    <span id="s_reason" class="error"></span></td>
+                            </tr>
+                            <tr><td class="td_left"></td><td
+                                    class="td_right"><input type="submit"
+                                                            value="提交"
+                                                            id="sub" onclick="return checkForm()"></td></tr>
+                        </table>
+                    </div>
+                </form>
+        </div>
+    </body>
+</html>

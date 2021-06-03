@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sail.mapper.UserMapper">
+
+    <!--插入用户-->
+    <insert id="save" parameterType="user">
+        insert into user values(#{lifePhoto},#{username},#{sno},#{email},#{classAndGrade},#{phone},#{skills},#{reason})
+    </insert>
+
+    <!--所有的用户信息-->
+    <select id="findAll" resultType="user">
+        select * from user
+    </select>
+
+    <select id="findBySno" resultType="user">
+        select * from user where sno=#{sno}
+    </select>
+
+    <!--模糊查询-->
+    <select id="find" parameterType="string" resultType="user">
+        select * from user where username like #{key}
+        or sno like #{key}
+        or email like #{key}
+        or class_and_grade like #{key}
+        or phone like #{key}
+        or skills like #{key}
+        or reason like #{key}
+    </select>
+
+    <!--通过学号删除用户-->
+    <delete id="deleteBySno" parameterType="string">
+        delete from user where sno=#{sno}
+    </delete>
+
+    <!--修改用户信息-->
+    <update id="update" parameterType="user">
+        update user set username=#{username},sno=#{sno},email=#{email},class_and_grade=#{classAndGrade},
+                        phone=#{phone},skills=#{skills},reason=#{reason}
+        where sno=#{sno}
+    </update>
+
+</mapper>
